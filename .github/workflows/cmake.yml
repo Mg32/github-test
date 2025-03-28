@@ -2,7 +2,7 @@
 #   https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
 #   https://github.com/iwatake2222/cpp_project_in_github/blob/master/.github/workflows/cmake_x64.yml
 #   https://github.com/marketplace/actions/run-vcpkg
-name: CMake
+name: Build with CMake on pushed tags
 
 on:
   push:
