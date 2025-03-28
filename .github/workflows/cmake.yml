@@ -29,22 +29,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Install latest CMake and Ninja.
-      - uses: lukka/get-cmake@latest
+      - name: Configure CMake
+        run: cmake --preset=vcpkg-github -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DVCPKG_TARGET_TRIPLET=${{ matrix.target_triplet }}
 
-      # Setup vcpkg: ensures vcpkg is downloaded and built.
-      - name: Setup vcpkg
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgGitCommitId: 'b02e341c927f16d991edbd915d8ea43eac52096c'  # 2025.03.19
-
-      - name: Run CMake and vcpkg
-        uses: lukka/run-cmake@v10
-        with:
-          configurePreset: 'vcpkg'
-          configurePresetAdditionalArgs: "['-DCMAKE_BUILD_TYPE=${{ matrix.build_type }}', '-DVCPKG_TARGET_TRIPLET=${{ matrix.target_triplet }}']"
-          buildPreset: 'vcpkg'
-          buildPresetAdditionalArgs: "['--config ${{ matrix.build_type }}']"
+      - name: Build with CMake
+        run: cmake --build build
 
       - name: Create artifacts
         shell: bash
