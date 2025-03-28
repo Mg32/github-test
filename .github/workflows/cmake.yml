@@ -1,7 +1,6 @@
 # Based on:
 #   https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
 #   https://github.com/iwatake2222/cpp_project_in_github/blob/master/.github/workflows/cmake_x64.yml
-#   https://github.com/marketplace/actions/run-vcpkg
 name: Build with CMake on pushed tags
 
 on:
@@ -22,6 +21,8 @@ jobs:
         build_type: [Release]
         include:
           - os: windows-latest
+            c_compiler: clang-cl
+            cpp_compiler: clang-cl
             target_triplet: x64-windows-static-md
             executable_name: ExampleProject.exe
             artifact_name: ExampleProject_windows_x64.zip
@@ -30,7 +31,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Configure CMake
-        run: cmake --preset=vcpkg-github -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DVCPKG_TARGET_TRIPLET=${{ matrix.target_triplet }}
+        run: >
+          cmake --preset=vcpkg-github
+          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DVCPKG_TARGET_TRIPLET=${{ matrix.target_triplet }}
 
       - name: Build with CMake
         run: cmake --build build
