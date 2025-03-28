@@ -23,7 +23,6 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-            make_program: nmake
             target_triplet: x64-windows-static-md
             executable_name: ExampleProject.exe
             artifact_name: ExampleProject_windows_x64.zip
@@ -31,12 +30,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get CMake and Ninja
+        uses: lukka/get-cmake@latest
+
       - name: Configure CMake
         run: >
           cmake --preset=vcpkg-github
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-          -DCMAKE_MAKE_PROGRAM=${{ matrix.make_program }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DVCPKG_TARGET_TRIPLET=${{ matrix.target_triplet }}
 
