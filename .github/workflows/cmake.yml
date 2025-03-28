@@ -27,12 +27,16 @@ jobs:
             artifact_name: ExampleProject_windows_x64.zip
 
     steps:
+      - uses: actions/checkout@v4
+
       # Install latest CMake and Ninja.
       - uses: lukka/get-cmake@latest
 
       # Setup vcpkg: ensures vcpkg is downloaded and built.
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 'b02e341c927f16d991edbd915d8ea43eac52096c'  # 2025.03.19
 
       - name: Run CMake and vcpkg
         uses: lukka/run-cmake@v10
