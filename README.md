@@ -7,7 +7,6 @@
 Install Visual Studio 2019 and vcpkg, and then run the following commands.
 
 ```powershell
-"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"  # x64 Native Tools Command Prompt for VS 2019
-cmake --preset=default -DCMAKE_BUILD_TYPE=Release -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
-cmake --build build
+cmake --preset=default -G "Visual Studio 16 2019" -A x64 -T ClangCL -DCMAKE_BUILD_TYPE=Release -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
+cmake --build build --config Release
 ```

@@ -29,9 +29,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get CMake and Ninja
-        uses: lukka/get-cmake@latest
-
       - name: Configure CMake
         run: >
           cmake --preset=vcpkg-github
@@ -40,7 +37,7 @@ jobs:
           -DVCPKG_TARGET_TRIPLET=${{ matrix.target_triplet }}
 
       - name: Build with CMake
-        run: cmake --build build
+        run: cmake --build build --config Release
 
       - name: Create artifacts
         shell: bash
@@ -48,7 +45,7 @@ jobs:
           ls  '${{github.workspace}}/build'
           if [[ "${{ matrix.os }}" == "windows-latest" ]]
           then
-            7z a ${{ matrix.artifact_name }} '${{github.workspace}}/build/${{ matrix.executable_name }}'
+            7z a ${{ matrix.artifact_name }} '${{github.workspace}}/build/Release/${{ matrix.executable_name }}'
           fi
           ls
 
